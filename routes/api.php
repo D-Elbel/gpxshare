@@ -11,3 +11,4 @@ Route::get('/user', function (Request $request) {
 
 
 Route::post('/save', [GeoJSONController::class, 'saveToS3']);
+Route::get('/get/{uuid}', [GeoJSONController::class, 'getGeoJSON']);
