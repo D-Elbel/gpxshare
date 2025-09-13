@@ -7,6 +7,12 @@ Route::get('/', function () {
     return Inertia::render('home');
 })->name('home');
 
+Route::get('share/{uuid?}', function ($uuid = null) {
+    return Inertia::render('viewroute', [
+        'uuid' => $uuid,
+    ]);
+})->whereUuid('uuid')->name('viewroute');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
