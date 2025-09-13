@@ -1,14 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GeoJSONController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
-
-
 Route::post('/save', [GeoJSONController::class, 'saveToS3']);
 Route::get('/get/{uuid}', [GeoJSONController::class, 'getGeoJSON']);
+Route::get('/get-recents', [GeoJSONController::class, 'getRecents']);

@@ -54,4 +54,30 @@ class GeoJSONController extends Controller
 
         return response($geoJSON, 200);
     }
+
+    public function getRecents()
+    {
+        try {
+            $files = Storage::disk('s3')->allFiles("files/");
+            $modified = [];
+
+            foreach ($files as $file) {
+                $lm = Storage::disk('s3')->lastModified($file);
+
+                $modified[] = [
+                    'filename' => pathinfo($file, PATHINFO_FILENAME),
+                    'created'  => date("Y-m-d H:i:s", $lm),
+                ];
+            }
+
+            return response()->json($modified, 200);
+        } catch (\Exception $e) {
+            Log::error("Fetching recents failed: " . $e->getMessage(), [
+                "exception" => $e,
+            ]);
+            return response()->json([
+                "error" => "Failed to fetch recent objects",
+            ], 500);
+        }
+    }
 }
